@@ -1,5 +1,7 @@
 // ========== SETUP =============
-var tmi = require("tmi.js");
+var tmi             = require("tmi.js"),
+    viewerCommands  = require("./viewerCommands"),
+    modCommands     = require("./modCommands");
 
 var options = {
     options: {
@@ -20,7 +22,11 @@ client.connect();
 
 // basic chat event listener
 client.on('chat', function(channel, user, message, self) {
-    if (message === '!twitter'){
-        client.action("wolvesatmydoor", "https://twitter.com/wlvsatmydoor");
-    }
+    if (self) return;
+
+    var cmd = viewerCommands.find(function(cmd) {
+        return cmd.name === message;
+    }); 
+
+    client.action("wolvesatmydoor", cmd.response)
 });
