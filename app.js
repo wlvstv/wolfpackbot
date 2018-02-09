@@ -24,12 +24,9 @@ client.connect();
 client.on('chat', function(channel, user, message, self) {
     if (self) return;
 
-    commands.filter(cmd => cmd.command === message) {
-        client.action(channel, cmd.response)
-    };
-    
-    
-    if (message === '!twitter'){
-        client.action("wolvesatmydoor", "https://twitter.com/wlvsatmydoor");
-    }
+    var cmd = viewerCommands.find(function(cmd) {
+        return cmd.name === message;
+    }); 
+
+    client.action("wolvesatmydoor", cmd.response)
 });
